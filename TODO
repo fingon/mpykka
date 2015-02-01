@@ -1,0 +1,4 @@
+- should make 'real' ActorRef just have ~parsed id, and resolve it to
+  object dynamically..
+
+- should test performance at some point - is this worth using on large scale?
