@@ -8,3 +8,4 @@ multiprocessing is used between processes, but there are just
 Actor+Future(+Process) classes that are user visible.
 
 
+See https://github.com/jodal/pykka/ for usage.

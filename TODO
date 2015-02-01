@@ -1,4 +1,9 @@
-- should make 'real' ActorRef just have ~parsed id, and resolve it to
-  object dynamically..
+- right now we support only star-shaped topology;
+i.e.
+ actors in main process can talk with anyone, and
+ children in sub-processes can talk with actors in main process.
+
+For the time being, it seems sufficient for what I want to do -> I do
+not see the need to change it :)
 
 - should test performance at some point - is this worth using on large scale?

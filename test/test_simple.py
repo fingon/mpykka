@@ -9,8 +9,8 @@
 # Copyright (c) 2015 Markus Stenberg
 #
 # Created:       Sun Feb  1 15:10:53 2015 mstenber
-# Last modified: Sun Feb  1 20:43:53 2015 mstenber
-# Edit time:     17 min
+# Last modified: Sun Feb  1 22:33:40 2015 mstenber
+# Edit time:     24 min
 #
 """
 
@@ -35,6 +35,10 @@ class DummyActor(Actor):
     def err(self):
         raise DummyException
 
+class Echoer(Actor):
+    def on_receive(self, a):
+        (next, msg) = a
+        return next.ask(msg).get()
 
 def test_simple():
     a = DummyActor.start()
@@ -69,8 +73,22 @@ def test_process():
     p.stop().get()
     _debug('done')
 
+def test_process_2():
+    da = DummyActor.start()
+    p = Process.start()
+    e = p.proxy().start_actor(Echoer).get()
+    assert e.ask((da, 'echo')).get() == 'echo'
+    _debug('stopping Echoer')
+    e.stop().get()
+    _debug('stopping sub-process')
+    p.stop().get()
+    _debug('stopping local actor')
+    da.stop().get()
+    _debug('done')
+
 if __name__ == '__main__':
     import logging
     logging.basicConfig(level=logging.DEBUG)
-    test_simple()
-    test_process()
+    #test_simple()
+    #test_process()
+    test_process_2()
